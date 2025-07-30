@@ -43,3 +43,17 @@ jobs:
 
       - name: List downloaded content
         run: find ./
+
+      - name: Add and commit .ipynb files and image directory
+        run: |
+          # Add all .ipynb files except those ending with _solution.ipynb
+          git add $(find . -name "*.ipynb" ! -name "*_solution.ipynb")
+
+          # Add the image directory
+          git add image/
+
+          # Commit the changes
+          git commit -m "Add .ipynb files and image directory"
+
+          # Push the changes to the repository
+          git push origin main
