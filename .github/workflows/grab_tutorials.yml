@@ -59,7 +59,9 @@ jobs:
 
       - name: Push changes
         env:
-          PAT_TOKEN: ${{ secrets.ACCESS_KEY }}
+          ACCESS_KEY: ${{ secrets.ACCESS_KEY }}
         run: |
           git remote set-url origin https://x-access-token:${ACCESS_KEY}@github.com/water-course/colab-tutorials.git
+          git config --global user.email "siavash.ghelichkhan@anu.edu.au"
+          git config --global user.name "Sia Ghelichkhan"
           git push origin main
