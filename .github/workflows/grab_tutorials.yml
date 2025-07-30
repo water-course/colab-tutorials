@@ -21,7 +21,7 @@ jobs:
         id: get_artifact
         run: |
           artifacts=$(curl -s \
-            -H "Authorization: token ${{ secrets.TUTORIALSACCESS }}" \
+            -H "Authorization: token ${{ secrets.ACCESS_KEY }}" \
             "https://api.github.com/repos/water-course/tutorials/actions/runs/${{ steps.get_run.outputs.run_id }}/artifacts")
 
           echo "Artifacts response: $artifacts"
