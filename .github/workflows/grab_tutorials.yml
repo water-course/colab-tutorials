@@ -24,8 +24,15 @@ jobs:
             -H "Authorization: token ${{ secrets.TUTORIALSACCESS }}" \
             "https://api.github.com/repos/water-course/tutorials/actions/runs/${{ steps.get_run.outputs.run_id }}/artifacts")
 
+          echo "Artifacts response: $artifacts"
+
           download_url=$(echo "$artifacts" | jq -r '.artifacts[] | select(.name=="ready") | .archive_download_url')
-          echo ${download_url}
+
+          if [ -z "$download_url" ]; then
+            echo "Error: No download URL found for artifact 'ready'."
+            exit 1
+          fi
+
           echo "download_url=$download_url" >> $GITHUB_OUTPUT
 
       - name: Download and unzip artifact
