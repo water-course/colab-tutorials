@@ -8,7 +8,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.ACCESS_KEY }}
 
       - name: Set up Git user
         run: |
@@ -56,13 +58,4 @@ jobs:
           git add image/
           # Commit the changes
           git commit -m "Add .ipynb files and image directory"
-
-      - name: Push changes
-        env:
-          ACCESS_KEY: ${{ secrets.ACCESS_KEY }}
-        run: |
-          echo ${ACCESS_KEY}
-          git remote set-url origin https://x-access-token:${ACCESS_KEY}@github.com/water-course/colab-tutorials.git
-          git config --global user.email "siavash.ghelichkhan@anu.edu.au"
-          git config --global user.name "Sia Ghelichkhan"
-          git push origin main
+          git push origin HEAD:${{ github.ref_name }}
