@@ -12,8 +12,8 @@ jobs:
 
       - name: Set up Git user
         run: |
-          git config --global user.email "your-email@example.com"
-          git config --global user.name "Your Name"
+          git config --global user.email "siavash.ghelichkhan@anu.edu.au"
+          git config --global user.name "Sia Ghelichkhan"
 
       - name: Get latest successful workflow run from tutorials
         id: get_run
@@ -56,5 +56,10 @@ jobs:
           git add image/
           # Commit the changes
           git commit -m "Add .ipynb files and image directory"
-          # Push the changes to the repository
+
+      - name: Push changes
+        env:
+          PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
+        run: |
+          git remote set-url origin https://x-access-token:${PAT_TOKEN}@github.com/water-course/colab-tutorials.git
           git push origin main
