@@ -10,6 +10,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      - name: Set up Git user
+        run: |
+          git config --global user.email "your-email@example.com"
+          git config --global user.name "Your Name"
+
       - name: Get latest successful workflow run from tutorials
         id: get_run
         run: |
@@ -26,16 +31,12 @@ jobs:
           artifacts=$(curl -s \
             -H "Authorization: token ${{ secrets.ACCESS_KEY }}" \
             "https://api.github.com/repos/water-course/tutorials/actions/runs/${{ steps.get_run.outputs.run_id }}/artifacts")
-
           echo "Artifacts response: $artifacts"
-
           download_url=$(echo "$artifacts" | jq -r '.artifacts[] | select(.name=="ready") | .archive_download_url')
-
           if [ -z "$download_url" ]; then
             echo "Error: No download URL found for artifact 'ready'."
             exit 1
           fi
-
           echo "download_url=$download_url" >> $GITHUB_OUTPUT
 
       - name: Download and unzip artifact
@@ -51,12 +52,9 @@ jobs:
         run: |
           # Add all .ipynb files except those ending with _solution.ipynb
           git add $(find . -name "*.ipynb" ! -name "*_solution.ipynb")
-
           # Add the image directory
           git add image/
-
           # Commit the changes
           git commit -m "Add .ipynb files and image directory"
-
           # Push the changes to the repository
           git push origin main
