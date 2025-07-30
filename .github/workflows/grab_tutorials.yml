@@ -59,7 +59,7 @@ jobs:
 
       - name: Push changes
         env:
-          PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
+          PAT_TOKEN: ${{ secrets.ACCESS_KEY }}
         run: |
-          git remote set-url origin https://x-access-token:${PAT_TOKEN}@github.com/water-course/colab-tutorials.git
+          git remote set-url origin https://x-access-token:${ACCESS_KEY}@github.com/water-course/colab-tutorials.git
           git push origin main
